@@ -1,0 +1,32 @@
+# Local business memory and unpublished work
+/workspaces/
+/private/
+
+# Credentials, browser/session state and host-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*credentials*.json
+*cookies*.json
+storage-state*.json
+.codex/
+.claude/settings.local.json
+CLAUDE.local.md
+
+.local/
+
+# 命令变量未展开时误生成的目录，不应提交
+%SystemDrive%/
+
+# Local tooling
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+*.log
