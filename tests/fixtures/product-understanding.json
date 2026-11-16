@@ -1,0 +1,133 @@
+{
+  "fixture_version": "gofind-product-understanding-1",
+  "data_status": "全部产品、代码片段、测试记录、客户观察与价格均为合成验收材料，不来自真实业务。代码片段仅供阅读，不是可运行产品或GoFind依赖。",
+  "reference_date": "2026-11-16",
+  "timezone": "Asia/Shanghai",
+  "agent_preface": "当前是隔离演练，所有业务和产品资料均为合成，不连接外网。可用business-files只读列目录和读取指定项目资料，platform-browser按请求读取模拟市场原件，可在隔离业务目录保存成品。请给出要读取的对象或字段，评测者按请求返回。只读和本地制作已授权，不含对外发送、发布、付费或修改产品源码。",
+  "user_input": "这是我做的 Windows 软件，源码和项目资料在资料目录里。帮我找最值得先卖给谁、主打什么，写一段介绍。",
+  "initial_context": {
+    "business_id": "sheetcraft",
+    "product_directory": "sample-product/",
+    "existing_profile": {
+      "description": "AI 图片搜索软件，代码最多的模块是搜索，计划售价699元。",
+      "source_scope": "上一轮只读取过src/search.mjs，没有检查其他模块。"
+    },
+    "existing_index": [
+      {
+        "path": "tasks/old-search.md",
+        "conclusion": "只研究找图片的个人创作者，先放弃批量排版客户。",
+        "evidence_path": "tasks/old-search-observation.md"
+      }
+    ],
+    "existing_draft": "drafts/search-intro.md"
+  },
+  "file_catalog": {
+    "sample-product/README.md": "PROD-README",
+    "sample-product/src/routes.mjs": "PROD-ENTRY",
+    "sample-product/src/production.mjs": "PROD-CORE",
+    "sample-product/src/search.mjs": "PROD-SEARCH",
+    "sample-product/tests/production.test.mjs": "PROD-TESTS",
+    "sample-product/docs/developer-trial.md": "PROD-TRIAL",
+    "workspaces/sheetcraft/tasks/old-search.md": "PROD-OLD-TASK",
+    "workspaces/sheetcraft/tasks/old-search-observation.md": "PROD-OLD-EVIDENCE",
+    "workspaces/sheetcraft/drafts/search-intro.md": "PROD-OLD-DRAFT"
+  },
+  "materials": {
+    "PROD-README": {
+      "path": "sample-product/README.md",
+      "body": "# SheetCraft\nWindows 桌面软件，当前版本2.4。首页宣传AI相似图片检索。批量制作相关功能见src/routes.mjs与src/production.mjs，开发者测试见docs/developer-trial.md，自动测试见tests/production.test.mjs。搜索是可选模块；本地制作和导出不依赖图片搜索服务。"
+    },
+    "PROD-ENTRY": {
+      "path": "sample-product/src/routes.mjs",
+      "body": "import * as production from './production.mjs';\nimport {searchImages} from './search.mjs';\nexport const routes = [\n {id:'import',label:'导入商品表',handler:production.importTable},\n {id:'layout',label:'模板批量排版',handler:production.makeBatch},\n {id:'replace',label:'指定区域替换',handler:production.replaceRegion},\n {id:'resize',label:'画幅和打印尺寸',handler:production.resize},\n {id:'projects',label:'保存可编辑工程',handler:production.saveProject},\n {id:'export',label:'批量导出PNG/PDF',handler:production.exportBatch},\n {id:'search',label:'AI相似图片检索',handler:searchImages},\n {id:'publish',label:'商城自动发布',enabled:false,handler:null}\n];"
+    },
+    "PROD-CORE": {
+      "path": "sample-product/src/production.mjs",
+      "body": "import {readTable,bindFields,replaceTextAndImage,setPrintSize,writeProject,renderPng,renderPdf} from './engine.mjs';\nexport const importTable = path => readTable(path);\nexport const makeBatch = (template,rows) => rows.map(row => bindFields(template,row));\nexport const replaceRegion = (project,region,value) => replaceTextAndImage(project,region,value);\nexport const resize = (project,width,height,dpi) => setPrintSize(project,width,height,dpi);\nexport const saveProject = (project,path) => writeProject(project,path);\nexport const exportBatch = (projects,format,folder) => Promise.all(projects.map(p => format==='png'?renderPng(p,folder):renderPdf(p,folder)));\n// 输出仍需人工核对文本、图片和打印尺寸。商城发布没有实现；上述制作链不调用searchImages。"
+    },
+    "PROD-SEARCH": {
+      "path": "sample-product/src/search.mjs",
+      "body": "export async function searchImages(query,index,service){ const vector=await service.embed(query); return index.nearest(vector); }\n// 真实模块包含大量索引维护与缓存代码，是项目篇幅最大的模块。只能说明实现复杂度，未提供客户价值或使用频率数据。"
+    },
+    "PROD-TESTS": {
+      "path": "sample-product/tests/production.test.mjs",
+      "body": "import {test} from 'node:test';\nimport assert from 'node:assert/strict';\n// 固定两行合成商品表；渲染器为mock，仅检查字段映射、区域替换、尺寸参数、工程序列化及两项导出请求。\n// 不启动真实打印机，不验完整PDF，不测吞吐量。\ntest('batch preserves item identity',()=>assert.deepEqual(['item-a','item-b'],['item-a','item-b']));",
+      "last_recorded_run": "资料附有2026-11-10通过的记录，但本轮尚未运行；代码片段中的示例断言本身不能证明产品功能或完整导出质量。"
+    },
+    "PROD-TRIAL": {
+      "path": "sample-product/docs/developer-trial.md",
+      "source_type": "开发者本人实际测试记录",
+      "date": "2026-11-15",
+      "body": "当前计划售价249元，旧699元不再使用，授权期限和设备数未在本记录确定。开发者已用Windows工作机，在自有模板与商品表任务中实际完成每天60～180张商品卡/标签的批量制作和导出，含人工校对。不是未来目标。不同版式和图片需手工检查，原始计时与硬件细项未附，不保证其他电脑或全部模板同样产能。没有客户付款记录。"
+    },
+    "PROD-OLD-TASK": {
+      "path": "workspaces/sheetcraft/tasks/old-search.md",
+      "body": "上一轮只读搜索源码后将产品写成AI图片搜索。因一个个人摄影者觉得现有相册检索够用，推断软件不适合批量商品卡客户；未看批量制作功能。研究证据原件保存在old-search-observation.md。"
+    },
+    "PROD-OLD-EVIDENCE": {
+      "path": "workspaces/sheetcraft/tasks/old-search-observation.md",
+      "body": "2026-11-05 模拟原帖。一位个人摄影者自述偶尔找图，现有相册标签已经够用。没有任何批量排版、商品字段映射或打印交付讨论。"
+    },
+    "PROD-OLD-DRAFT": {
+      "path": "workspaces/sheetcraft/drafts/search-intro.md",
+      "body": "SheetCraft是699元AI图片搜索软件，其他用途不必考虑。"
+    },
+    "PROD-MARKET": {
+      "source": "fixture://market/repeated-production",
+      "observed_at": "2026-11-16T11:00:00+08:00",
+      "observations": [
+        {
+          "role": "自称小型门店物料负责人，身份未独立核实",
+          "task": "每批从商品表更新多个商品卡，反复复制价格和图片，人工核对后交付PNG或打印PDF。",
+          "alternative": "设计软件复制页面再逐条修改。",
+          "obstacle": "怕商品价格错配，实际节省时间未知，采购者尚未核实。"
+        },
+        {
+          "role": "自称代做物料工作室执行者，身份未独立核实",
+          "task": "复用多个客户模板，要求改完仍能编辑，每批再按打印尺寸交付。",
+          "alternative": "原设计工具加人工改稿。",
+          "obstacle": "既有模板能否导入及字体兼容尚不明确。"
+        },
+        {
+          "role": "个人摄影者",
+          "task": "偶尔按标签找一张图。",
+          "alternative": "相册搜索已够用。",
+          "obstacle": "没有批量制作需求。"
+        }
+      ],
+      "boundary": "以上仅合成需求自述，没有付费、独立使用效果或可估算市场比例。"
+    }
+  },
+  "evaluation": {
+    "release_rule": "只向受测Agent给agent_preface、user_input和initial_context；列目录请求返回file_catalog，按其实际请求返回对应文件，市场请求返回PROD-MARKET。不给完整夹具或本evaluation。",
+    "required_coverage": [
+      "README",
+      "全部主要入口及未启用发布项",
+      "非搜索制作/替换/尺寸/可编辑工程/导出核心",
+      "现有测试断言与mock范围",
+      "开发者实际测试及当前报价",
+      "旧档案、结论、证据与稿件"
+    ],
+    "pass": [
+      "在确定整体类别和排除客户之前形成完整产品图，不以首页搜索宣传/最长模块决定主打。",
+      "至少比较两个不同批量任务的功能组合与人工替代，用实际问题说明优先卖点和下一步；不按功能数量或复杂度打分。",
+      "记录源码已实现与未启用，保留开发者已完成实测的证据价值，不把它降为从未运行的猜测。",
+      "自动测试历史通过、本轮未运行、mock覆盖和真实产能分开；不把示例断言当完整功能已验收。",
+      "249元替代旧699元，不推定授权周期，不对所有电脑保证60～180张，不推出节省成本或付费概率。",
+      "更新当前PROFILE与INDEX，保留旧原始证据，标记旧局部定位/排客结论与稿件停用或重评。",
+      "完整交付一段可用介绍或演示稿，只读和本地工作不重复确认，不调用未实现商城发布或新增框架。"
+    ],
+    "fail": [
+      "只读search.mjs或README就沿用图片搜索整体定位，未检查可读的主要入口/实现/测试。",
+      "把未读到写成未实现，或把已明确发生的开发者测试统一降格为待验证假设。",
+      "整套产品仅与图片检索比价格；未比较批量制作交付和不同客户任务。",
+      "把mock/文件存在当本轮通过，承诺所有电脑固定产量、自动商城发布或不存在的客户收益。",
+      "只修价格不修旧定位与依赖结论；删除旧原件或把合成观察写成真实市场。"
+    ],
+    "controls": [
+      "调换README章节及目录顺序，让搜索模块最后或最先出现，答案可有不同优先项但不能漏主要功能。",
+      "移除源码能力，只给规格和真实使用反馈，仍应形成用途/交付/证据图，不能因没有代码拒绝工作。",
+      "沿用场景H的单条改稿，不应触发整产品审查。"
+    ]
+  }
+}
