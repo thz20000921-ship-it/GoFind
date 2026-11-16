@@ -199,6 +199,7 @@ V2 在 **2026-11-16** 用渲染浏览器重核 S01、S07，并新增技术来源
 - 官方：[Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)；本轮重定向到 [ChatGPT Learn 对应文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)。
 - 类型/访问：官方说明；相关正文已核查。
 - 支持：Codex 按作用域发现项目指令，目录层级和大小限制影响加载。GoFind 使用根目录入口，不修改宿主私人设置。
+- 2026-11-16 补核：[当前官方正文](https://learn.chatgpt.com/docs/agent-configuration/agents-md) 说明指令链在运行开始时构建，TUI通常为启动会话时；指导内容陈旧时重启。GoFind 在当前对话显式重读文件只证明当前Agent取得了该文本，不证明桌面其他会话或DSH/Claude已热更新；本轮未做这些宿主的全量加载对照。
 - 边界：本项目没有测试所有宿主版本或用户配置，新增文件后在根目录开新会话更清楚。
 
 <a id="s27"></a>
