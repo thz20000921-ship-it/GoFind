@@ -22,4 +22,4 @@ git diff --check
 
 有具体授权并发生实际动作后，回收平台或客户原件，观察一个预先选定的合格行为，记录窗口、成本和限制。自然分发或客户试用所得结果决定是否调整或扩大。上线回执只说明真实提交状态。获客判断依据下游行动、付款及履约数据。
 
-早期真实调查与合成验收见[公开示例](../examples/gofind-channel-research/README.md)和 [V2 审查](v2-review.md)。后续各次浏览器原件和行为演练留在对应的本地忽略任务目录。
+早期真实调查与合成验收见[公开示例](../examples/gofind-channel-research/README.md)和 [V2 审查](v2-review.md)。浏览器原件和行为演练按用途留在本地业务目录。[业务目录](memory.md)
