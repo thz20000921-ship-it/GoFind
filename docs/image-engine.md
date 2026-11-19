@@ -15,7 +15,7 @@ python scripts/image_engine.py --config private/image-engine.json --output works
 
 `import-link` 复用 `/api/company-workflow/link`，下载其返回的图片，再上传到 `/api/engine/assets`。`import-response.json` 保留真实原始返回，`assets-response.json` 和 `assets.json` 保留素材 ID 与本地文件对应关系。引擎的浏览器登录与 ego 独立，遇到登录/验证限制会原样报告并停止此路径；已有正常取得的本地素材仍可用 `upload` 导入。
 
-按引擎真实 `Job/Page` 契约准备 `job.json`，将返回的 ID 填入 `references`，并按页面用途填写 `pages[].asset_ids`。客户端不改选题、文案、素材权利或模式，不伪造素材 ID。`prepare` 调用真实 `status/plan/estimate`，固定为零授权，不分析、不生成；检查结果与准确输入保存在指定目录。
+按引擎真实 `Job/Page` 契约准备 `job.json`，用返回的 ID 填写 `references` 和相应页面的 `pages[].asset_ids`。创作者决定选题、文字、素材权利和模式。`prepare` 只调用真实 `status/plan/estimate`，图片授权固定为零。准确输入和检查结果保存在指定目录。续接先查同一份输入是否已有预检回执。输入、素材、页数或接口变了，已安排提交，或需要定位具体错误时，才补相应检查。
 
 只有用户已经批准具体请求额度时，才执行提交命令。下面的3次只是调用示例，实际值取本次获准额度：
 
@@ -27,7 +27,7 @@ python scripts/image_engine.py --config private/image-engine.json --output works
 
 提交前保存准确请求和任务 ID，超时或服务端写盘失败记录为未知，不自动重发。继续时先 `query` 同一 ID；正常重发同一准确请求沿用引擎的幂等机制。任务或模型配置更改不能静默复用旧 ID。额度由引擎执行；未配置单价时不能把次数估算当货币报价，也不推定余额足够。
 
-`query` 保存真实 `progress.json`。`download` 逐页核对 PNG 签名及接口返回的哈希，保存当前版本；全部完成才下载并检验整套 ZIP。部分失败时保留已成功页和原始进度，不自动付费重试。图片文件成功不代表文字或产品事实已验收。
+`query` 保存真实 `progress.json`。`download` 逐页核对 PNG 签名及接口返回的哈希，保存返回的图片，全部完成才下载并检验整套 ZIP。部分失败时保留已成功页和原始进度，付费重试仍需已有授权覆盖。报告生成完成要对应到任务、回执和实际图片。逐页看图和事实验收另依据实际查看结果。
 
 ## 母版结构迁移和指定页修改
 
