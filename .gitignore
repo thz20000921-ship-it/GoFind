@@ -30,3 +30,6 @@ venv/
 .DS_Store
 Thumbs.db
 *.log
+
+# 本地收编的生图引擎（含随包运行时与独立许可，不混入 GoFind 公共提交）
+/engine/

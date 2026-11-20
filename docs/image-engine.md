@@ -2,7 +2,7 @@
 
 `scripts/image_engine.py` 使用 Python 标准库调用独立引擎的现有 HTTP API，不调用供应商 SDK，不改变运营规则。
 
-先运行引擎自己的 `启动图文引擎.cmd`。默认连接本机8787端口，自动从引擎个人数据目录读取 `agent-token.txt`；也支持引擎已有的 `ILAB_CONJURE_DATA_DIR`、`IMAGE_ENGINE_TOKEN` 环境变量。供应商 Key 仍由引擎持有，GoFind 不需要它。
+先运行 `engine/启动图文引擎.cmd`。默认连接本机8787端口，自动从引擎个人数据目录读取 `agent-token.txt`；也支持引擎已有的 `ILAB_CONJURE_DATA_DIR`、`IMAGE_ENGINE_TOKEN` 环境变量。供应商 Key 仍由引擎持有，GoFind 不需要它。
 
 非默认位置可在被忽略的 `private/image-engine.json` 写 `base_url`、`data_dir`、可选 `timeout_seconds`。不把配置或业务任务放进公共提交。
 
